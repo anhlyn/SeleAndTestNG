@@ -30,7 +30,7 @@ public class TechPandaTC {
         driver.manage().window().maximize();
     }
 
-    @Test(groups = "Browser")
+    @Test
     public void Browser_TC01_VerifyUrl(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -40,7 +40,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
     }
 
-    @Test(groups = "Browser")
+    @Test
     public void Browser_TC02_VerifyTitle(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -50,7 +50,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
     }
 
-    @Test(groups = "Browser")
+    @Test
     public void Browser_TC03_NavigateFunc(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -66,7 +66,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.getTitle(), "Create New Customer Account");
     }
 
-    @Test(groups = "Browser")
+    @Test
     public void Browser_TC04_GetPageSource(){
         driver.navigate().to(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -76,7 +76,7 @@ public class TechPandaTC {
         Assert.assertTrue(driver.getPageSource().contains("Create an Account"));
     }
 
-    @Test(groups = "Login")
+    @Test
     public void Login_TC01_EmptyData(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -86,7 +86,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElements(By.xpath("//ul[@class='form-list']//div[@class='validation-advice']")).size(), 2);
     }
 
-    @Test(groups = "Login")
+    @Test
     public void Login_TC02_InvalidEmail(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -99,7 +99,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElement(By.id("advice-validate-email-email")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
     }
 
-    @Test(groups = "Login")
+    @Test
     public void Login_TC03_InvalidPassword(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
@@ -112,7 +112,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
     }
 
-    @Test(groups = "Login")
+    @Test
     public void Login_TC04_IncorrectPassword(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();

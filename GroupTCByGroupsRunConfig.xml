@@ -5,7 +5,8 @@
         <parameter name="browser" value="chrome" />
         <groups>
             <run>
-                <include name="Browser"></include>
+                <!--<include name="Browser"></include>-->
+                <include name="Login"></include>
             </run>
         </groups>
         <classes>
