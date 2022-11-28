@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuite" parallel="tests">
+    <test name="Run On Chrome">
+        <parameter name="browser" value="chrome" />
+        <classes>
+            <class name="RegisterOnAladaPage"/>
+        </classes>
+    </test>
+
+    <test name="Run On Firefox">
+        <parameter name="browser" value="firefox" />
+        <classes>
+            <class name="RegisterOnAladaPage"/>
+        </classes>
+    </test>
+</suite>
