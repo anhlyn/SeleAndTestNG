@@ -1,9 +1,11 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
@@ -13,10 +15,17 @@ public class RegisterOnAladaPage {
     static String URL = "https://alada.vn/tai-khoan/dang-ky.html";
 
     @BeforeClass
-    public void openBrowser(){
-        System.out.println("Exec TC_onChrome.");
-        System.setProperty("webdriver.chrome.driver","//Users//nghitran//Linh//SeleAndTestNG//BrowserDrivers//chromedriver");
-        driver = new ChromeDriver();
+    @Parameters("browser")
+    public void openBrowser(String browserName){
+
+        System.out.println("<Parameter is " + browserName + "/>");
+        if(browserName.contentEquals("chrome")){
+            System.setProperty("webdriver.chrome.driver","//Users//nghitran//Linh//SeleAndTestNG//BrowserDrivers//chromedriver");
+            driver = new ChromeDriver();
+        }else if(browserName.contentEquals("firefox")){
+            System.setProperty("webdriver.gecko.driver","//Users//nghitran//Linh//SeleAndTestNG//BrowserDrivers//geckodriver");
+            driver = new FirefoxDriver();
+        }
 
         driver.manage().window().maximize();
     }
