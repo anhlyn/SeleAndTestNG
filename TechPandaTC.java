@@ -38,7 +38,7 @@ public class TechPandaTC {
     }
 
     @Test
-    public void Browser_TC01_VerifyUrl(){
+    public void TC01_VerifyUrl(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
@@ -48,7 +48,7 @@ public class TechPandaTC {
     }
 
     @Test
-    public void Browser_TC02_VerifyTitle(){
+    public void TC02_VerifyTitle(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertEquals(driver.getTitle(), "Customer Login");
@@ -58,7 +58,7 @@ public class TechPandaTC {
     }
 
     @Test
-    public void Browser_TC03_NavigateFunc(){
+    public void TC03_NavigateFunc(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         driver.findElement(By.xpath("//a[string()='Create an Account']")).click();
@@ -74,7 +74,7 @@ public class TechPandaTC {
     }
 
     @Test
-    public void Browser_TC04_GetPageSource(){
+    public void TC04_GetPageSource(){
         driver.navigate().to(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -83,8 +83,8 @@ public class TechPandaTC {
         Assert.assertTrue(driver.getPageSource().contains("Create an Account"));
     }
 
-    @Test
-    public void Login_TC01_EmptyData(){
+    @Test(groups = {"account", "login"})
+    public void TC05_EmptyData(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -93,8 +93,8 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElements(By.xpath("//ul[@class='form-list']//div[@class='validation-advice']")).size(), 2);
     }
 
-    @Test
-    public void Login_TC02_InvalidEmail(){
+    @Test(groups = {"account", "login"})
+    public void TC06_InvalidEmail(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -106,8 +106,8 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElement(By.id("advice-validate-email-email")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
     }
 
-    @Test
-    public void Login_TC03_InvalidPassword(){
+    @Test(groups = {"account", "login"})
+    public void TC07_InvalidPassword(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -119,8 +119,8 @@ public class TechPandaTC {
         Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
     }
 
-    @Test
-    public void Login_TC04_IncorrectPassword(){
+    @Test(groups = {"account", "login"})
+    public void TC08_IncorrectPassword(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -132,8 +132,8 @@ public class TechPandaTC {
         System.out.println(driver.findElement(By.xpath("//li[@class='error-msg']")).getText());
     }
 
-    @Test(enabled = true)
-    public void Login_TC05_CreateNewAccount(){
+    @Test(groups = {"account", "login"})
+    public void TC09_CreateNewAccount(){
         driver.get(URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -151,7 +151,7 @@ public class TechPandaTC {
         Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/index/");
         Assert.assertTrue(driver.findElement(By.xpath("//li[@class='success-msg']//li[string()='Thank you for registering with Main Website Store.']")).isDisplayed());
         String boxAccount = driver.findElement(By.xpath("//div[@class='col-1']//div[@class='box-content']")).getText();
-        Assert.assertFalse(boxAccount.contains(firstName) && boxAccount.contains(lastName) && boxAccount.contains(email));
+        Assert.assertTrue(boxAccount.contains(firstName) && boxAccount.contains(lastName) && boxAccount.contains(email));
 
         //Step 08: Logout system
         driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//a[contains(@href, '/customer/account/')]")).click();
@@ -162,8 +162,8 @@ public class TechPandaTC {
         }
     }
 
-    @Test(dependsOnMethods = "Login_TC05_CreateNewAccount", enabled = true)
-    public void Login_TC06_ValidAccount(){
+    @Test(dependsOnMethods = "TC09_CreateNewAccount", groups = {"account", "login"})
+    public void TC10_ValidAccount(){
         driver.navigate().to(this.URL);
         driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
         Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
@@ -176,7 +176,7 @@ public class TechPandaTC {
         Assert.assertTrue(boxAccount.contains(firstName) && boxAccount.contains(lastName) && boxAccount.contains(email));
     }
 
-    @AfterClass(enabled = true)
+    @AfterClass(enabled = false)
     public void closeBrowser(){
         driver.quit();
     }

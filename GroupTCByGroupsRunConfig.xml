@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestSuite" parallel="classes">
-    <test name="Run Multiple Classes">
+<suite name="TestSuite">
+    <test name="Run Multiple Classes" parallel="classes">
         <parameter name="browser" value="chrome" />
         <groups>
             <run>
-                <!--<include name="Browser"></include>-->
-                <include name="Login"></include>
+                <include name="account"></include>
             </run>
         </groups>
         <classes>
             <class name="TechPandaTC"/>
+            <class name="RegisterOnAladaPage"></class>
         </classes>
     </test>
 </suite>

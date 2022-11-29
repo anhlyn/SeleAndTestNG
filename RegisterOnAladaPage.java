@@ -14,7 +14,7 @@ public class RegisterOnAladaPage {
     WebDriver driver;
     static String URL = "https://alada.vn/tai-khoan/dang-ky.html";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     @Parameters("browser")
     public void openBrowser(String browserName){
 
@@ -30,7 +30,7 @@ public class RegisterOnAladaPage {
         driver.manage().window().maximize();
     }
 
-    @Test
+    @Test(groups = "account")
     public void TC01_RegisterEmptyData(){
         driver.get(RegisterOnAladaPage.URL);
         driver.findElement(By.xpath("//form[@id='frmLogin']//button[@type='submit']")).click();
@@ -42,7 +42,7 @@ public class RegisterOnAladaPage {
         Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtCPassword-error']")).isDisplayed());
         Assert.assertTrue(driver.findElement(By.xpath("//label[@id='txtPhone-error']")).isDisplayed());
     }
-    @Test
+    @Test(groups = "account")
     public void TC02_RegisterInvalidEmail(){
         driver.navigate().to(RegisterOnAladaPage.URL);
 
@@ -59,7 +59,7 @@ public class RegisterOnAladaPage {
         Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error' and @for='txtEmail']")).getText().trim(), "Vui lòng nhập email hợp lệ");
         Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error' and @for='txtCEmail']")).getText().trim(), "Email nhập lại không đúng");
     }
-    @Test
+    @Test(groups = "account")
     public void TCO3_RegisterIncorrectCEmail(){
         driver.navigate().to(RegisterOnAladaPage.URL);
 
@@ -78,7 +78,7 @@ public class RegisterOnAladaPage {
         Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error' and @for='txtCEmail']")).getText().trim(), "Email nhập lại không đúng");
     }
 
-    @Test
+    @Test(groups = "account")
     public void TCO4_RegisterWithInvalidPassword(){
         driver.navigate().to(RegisterOnAladaPage.URL);
 
@@ -95,7 +95,7 @@ public class RegisterOnAladaPage {
         Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error' and @for='txtCPassword']")).getText().trim(), "Mật khẩu phải có ít nhất 6 ký tự");
     }
 
-    @Test
+    @Test(groups = "account")
     public void TCO5_RegisterWithIncorrectCPassword(){
         driver.navigate().to(RegisterOnAladaPage.URL);
 
@@ -111,7 +111,7 @@ public class RegisterOnAladaPage {
         Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error' and @for='txtCPassword']")).getText().trim(), "Mật khẩu bạn nhập không khớp");
     }
 
-    @Test
+    @Test(groups = "account")
     public void TCO6_RegisterWithInvalidPhoneNo(){
         driver.navigate().to(RegisterOnAladaPage.URL);
 
@@ -132,7 +132,7 @@ public class RegisterOnAladaPage {
         Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019 - 088 - 03 - 05 - 07 - 08");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = false)
     public void closeBrowser(){
         driver.quit();
     }
