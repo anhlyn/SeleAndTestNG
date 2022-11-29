@@ -6,7 +6,8 @@
         <classes>
             <class name="TechPandaTC">
                 <methods>
-                    <include name="Browser.*" />
+                    <include name="Login_TC06_ValidAccount" />
+                    <include name="Login_TC05_CreateNewAccount" />
                 </methods>
             </class>
         </classes>

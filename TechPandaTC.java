@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -8,11 +9,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.util.Random;
+
 
 public class TechPandaTC {
 
     WebDriver driver;
     String URL = "http://live.techpanda.org/";
+    String firstName = "first";
+    String lastName = "last";
+    String password = "123456";
+    String email = "test" + (new Random()).nextInt(999) + "@gmail.com";
 
     @BeforeClass(alwaysRun = true)
     @Parameters("browser")
@@ -123,10 +130,53 @@ public class TechPandaTC {
 
         driver.findElement(By.xpath("//button[string()='Login']")).click();
         System.out.println(driver.findElement(By.xpath("//li[@class='error-msg']")).getText());
-
     }
 
-    @AfterClass(alwaysRun = true)
+    @Test(enabled = true)
+    public void Login_TC05_CreateNewAccount(){
+        driver.get(URL);
+        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+        Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
+
+        driver.findElement(By.xpath("//a[string()='Create an Account']")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
+
+        driver.findElement(By.id("firstname")).sendKeys(firstName);
+        driver.findElement(By.id("lastname")).sendKeys(lastName);
+        driver.findElement(By.id("email_address")).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("confirmation")).sendKeys(password);
+
+        driver.findElement(By.xpath("//button[string()='Register']")).click();
+        Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/index/");
+        Assert.assertTrue(driver.findElement(By.xpath("//li[@class='success-msg']//li[string()='Thank you for registering with Main Website Store.']")).isDisplayed());
+        String boxAccount = driver.findElement(By.xpath("//div[@class='col-1']//div[@class='box-content']")).getText();
+        Assert.assertFalse(boxAccount.contains(firstName) && boxAccount.contains(lastName) && boxAccount.contains(email));
+
+        //Step 08: Logout system
+        driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//a[contains(@href, '/customer/account/')]")).click();
+        WebElement logOutLink = driver.findElement(By.xpath("//div[@id='header-account']//a[text()='Log Out']"));
+        if(logOutLink.isDisplayed()){
+            logOutLink.click();
+            Assert.assertTrue(driver.findElement(By.xpath("//p[@class='welcome-msg' and text()='Default welcome msg! ']")).isDisplayed());
+        }
+    }
+
+    @Test(dependsOnMethods = "Login_TC05_CreateNewAccount", enabled = true)
+    public void Login_TC06_ValidAccount(){
+        driver.navigate().to(this.URL);
+        driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+        Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
+
+        driver.findElement(By.xpath("//ul[@class='form-list']//input[@type='email']")).sendKeys(this.email);
+        driver.findElement(By.xpath("//ul[@class='form-list']//input[@type='password']")).sendKeys(this.password);
+
+        driver.findElement(By.xpath("//button[string()='Login']")).click();
+        String boxAccount = driver.findElement(By.xpath("//div[@class='col-1']//div[@class='box-content']")).getText();
+        Assert.assertTrue(boxAccount.contains(firstName) && boxAccount.contains(lastName) && boxAccount.contains(email));
+    }
+
+    @AfterClass(enabled = true)
     public void closeBrowser(){
         driver.quit();
     }
